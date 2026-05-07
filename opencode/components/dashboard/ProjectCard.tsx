@@ -1,5 +1,6 @@
 "use client";
 
+import { useRouter } from "next/navigation";
 import type { ProjectWithMembers } from "@/lib/types";
 
 interface Props {
@@ -30,6 +31,7 @@ function formatDate(dateStr: string): string {
 }
 
 export default function ProjectCard({ project }: Props) {
+  const router = useRouter();
   const activeMembers = project.project_members.filter(
     (m) => m.status === "active"
   );
@@ -40,7 +42,8 @@ export default function ProjectCard({ project }: Props) {
       className={`group relative flex flex-col rounded-2xl border bg-gradient-to-br ${colorClass} p-5 cursor-pointer hover:scale-[1.02] transition-transform min-h-[160px]`}
       role="button"
       tabIndex={0}
-      // Future: onClick={() => router.push(`/project/${project.id}`)}
+      onClick={() => router.push(`/project/${project.id}`)}
+      onKeyDown={(e) => e.key === "Enter" && router.push(`/project/${project.id}`)}
     >
       {/* Project name */}
       <h3 className="text-base font-semibold text-white leading-snug mb-1 pr-4">
